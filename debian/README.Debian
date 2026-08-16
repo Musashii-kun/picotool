@@ -1,0 +1,23 @@
+picotool for Debian
+====================
+
+picotool's build (CMakeLists.txt) requires PICO_SDK_PATH to point at a
+checkout of https://github.com/raspberrypi/pico-sdk, version 2.1.0 or later.
+It is only used for headers and version metadata by default (USE_PRECOMPILED
+is on, so the pre-built enc_bootloader.elf / xip_ram_perms.elf checked into
+this source tree are reused instead of being recompiled), so no
+arm-none-eabi toolchain is needed to build this package.
+
+Before running dpkg-buildpackage, export PICO_SDK_PATH:
+
+    export PICO_SDK_PATH=/path/to/pico-sdk
+    dpkg-buildpackage -b -uc -us
+
+debian/rules picks it up from the environment; the build aborts with a clear
+error if it is unset.
+
+This packaging deliberately diverges from the picotool package in the
+Debian archive proper, which build-depends on the pico-sdk-source package
+and rebuilds enc_bootloader/xip_ram_perms from source with USE_PRECOMPILED=0.
+That approach requires the arm-none-eabi cross toolchain and the mbedtls
+submodule; this simplified packaging avoids both for local/personal builds.

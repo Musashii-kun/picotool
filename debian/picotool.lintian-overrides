@@ -1,0 +1,16 @@
+# these are pre-built, statically linked 32-bit ARM EABI5 binaries for the
+# rp2040/rp2350 devices, checked into the upstream source tree (or built as
+# part of the pico-sdk mbedtls submodule, for enc_bootloader_mbedtls.elf)
+picotool: arch-dependent-file-in-usr-share [usr/share/picotool/enc_bootloader.elf]
+picotool: arch-dependent-file-in-usr-share [usr/share/picotool/enc_bootloader_mbedtls.elf]
+picotool: arch-dependent-file-in-usr-share [usr/share/picotool/xip_ram_perms.elf]
+picotool: binary-from-other-architecture [usr/share/picotool/enc_bootloader.elf]
+picotool: binary-from-other-architecture [usr/share/picotool/enc_bootloader_mbedtls.elf]
+picotool: binary-from-other-architecture [usr/share/picotool/xip_ram_perms.elf]
+picotool: statically-linked-binary [usr/share/picotool/enc_bootloader.elf]
+picotool: statically-linked-binary [usr/share/picotool/enc_bootloader_mbedtls.elf]
+picotool: statically-linked-binary [usr/share/picotool/xip_ram_perms.elf]
+# non-arm "strip" cannot strip this 32 bit arm eabi5 statically linked executable
+picotool: unstripped-binary-or-object [usr/share/picotool/enc_bootloader.elf]
+picotool: unstripped-binary-or-object [usr/share/picotool/enc_bootloader_mbedtls.elf]
+picotool: unstripped-binary-or-object [usr/share/picotool/xip_ram_perms.elf]

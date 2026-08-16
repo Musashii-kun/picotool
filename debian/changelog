@@ -1,0 +1,5 @@
+picotool (2.3.0-1) UNRELEASED; urgency=medium
+
+  * Initial local packaging of the 2.3.0 checkout.
+
+ -- akihana <akihana@gmail.com>  Sat, 15 Aug 2026 19:27:05 -0700

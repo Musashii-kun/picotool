@@ -1,0 +1,34 @@
+#!/usr/bin/make -f
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+%:
+	dh $@
+
+# picotool's CMakeLists.txt requires PICO_SDK_PATH to point at a checkout of
+# https://github.com/raspberrypi/pico-sdk (>= 2.1.0). It is only used for
+# headers and version metadata here since USE_PRECOMPILED defaults to on, so
+# no arm-none-eabi toolchain is required. Export PICO_SDK_PATH before
+# invoking dpkg-buildpackage; see debian/README.Debian.
+override_dh_auto_configure:
+ifeq ($(PICO_SDK_PATH),)
+	$(error PICO_SDK_PATH is not set; export PICO_SDK_PATH=/path/to/pico-sdk before building (see debian/README.Debian))
+endif
+	dh_auto_configure -- -DPICO_SDK_PATH=$(PICO_SDK_PATH)
+
+# The bundled enc_bootloader*.elf / xip_ram_perms.elf are pre-built 32-bit
+# ARM EABI5 binaries checked into the source tree (or, for
+# enc_bootloader_mbedtls.elf, installed only when the pico-sdk mbedtls
+# submodule is present); the host strip/dwz tools cannot (and should not)
+# touch them.
+override_dh_strip:
+	dh_strip \
+		--exclude=/usr/share/picotool/xip_ram_perms.elf \
+		--exclude=/usr/share/picotool/enc_bootloader.elf \
+		--exclude=/usr/share/picotool/enc_bootloader_mbedtls.elf
+
+override_dh_dwz:
+	dh_dwz \
+		--exclude=/usr/share/picotool/xip_ram_perms.elf \
+		--exclude=/usr/share/picotool/enc_bootloader.elf \
+		--exclude=/usr/share/picotool/enc_bootloader_mbedtls.elf

@@ -1,0 +1,23 @@
+Source: picotool
+Section: libdevel
+Priority: optional
+Maintainer: akihana <akihana@gmail.com>
+Homepage: https://github.com/raspberrypi/picotool
+Standards-Version: 4.7.0
+Rules-Requires-Root: no
+Build-Depends:
+ cmake,
+ debhelper-compat (= 13),
+ libusb-1.0-0-dev,
+ pkgconf,
+
+Package: picotool
+Architecture: any
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends},
+Description: interact with RP2040/RP2350 devices or binaries
+ Tool for interacting with a RP2040/RP2350 device in BOOTSEL mode, or with a
+ RP2040/RP2350 binary. It allows one to load programs onto the device or save
+ programs from flash to a file. It allows one to verify device contents or
+ reboot the device.
